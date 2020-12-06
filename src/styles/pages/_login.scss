@@ -24,12 +24,26 @@
   padding: 35px 35px 20px;
   width: 40%;
   order: 2;
+
+  @media screen and(max-width: 575px) {
+    width: 100%;
+    order: 1;
+  }
+}
+
+.app-login-header {
+  margin-bottom: 30px;
 }
 
 .app-login-content {
   padding: 35px 35px 20px;
   width: 60%;
   order: 1;
+
+  @media screen and(max-width: 575px) {
+    width: 100%;
+    order: 2;
+  }
 }
 
 .app-social-block {
