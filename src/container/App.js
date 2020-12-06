@@ -5,14 +5,17 @@ import '../styles/bootstrap.scss';
 import '../styles/app.scss';
 import '../assets/vendors/style';
 
+import asyncComponent from 'util/asyncComponent';
+
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+
 import AppLocale from '../lngProvider';
 
 function App() {
   const locale = {
     languageId: 'english',
-    locale: 'zh',
+    locale: 'en',
     name: 'English',
     icon: 'us',
   };
@@ -30,6 +33,11 @@ function App() {
             </Route>
             <Route exact path={'/signin'} component={SignIn} />
             <Route exact path={'/signup'} component={SignUp} />
+            <Route
+              component={asyncComponent(() =>
+                import('app/routes/extraPages/routes/404'),
+              )}
+            />
           </Switch>
         </div>
       </IntlProvider>
