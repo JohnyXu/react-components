@@ -9,10 +9,31 @@ import asyncComponent from 'util/asyncComponent';
 
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import Routes from '../app/routes';
 
 import AppLocale from '../lngProvider';
 
-function App() {
+const RestrictedRoute = ({ component: Component, authUser, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      true ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/signin',
+            state: { from: props.location },
+          }}
+        />
+      )
+    }
+  />
+);
+
+function App(props) {
+  const { match } = props;
+  console.log('App:', match);
   const locale = {
     languageId: 'english',
     locale: 'en',
@@ -28,11 +49,14 @@ function App() {
       >
         <div className="app-main">
           <Switch>
-            <Route exact path={'/'}>
-              <Redirect to="/signin" />
-            </Route>
+            <RestrictedRoute
+              path={`${match.url}app`}
+              //authUser={authUser}
+              component={Routes}
+            />
             <Route exact path={'/signin'} component={SignIn} />
             <Route exact path={'/signup'} component={SignUp} />
+            <Routes />
             <Route
               component={asyncComponent(() =>
                 import('app/routes/extraPages/routes/404'),
